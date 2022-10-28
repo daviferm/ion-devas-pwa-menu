@@ -11,9 +11,11 @@ import { NavbarService } from '../../componentes/navbar/navbar.service';
 })
 export class HomePage implements OnInit {
 
+  zoomMapa: number = 12.5;
   searchMap: boolean = false;
   polygon: LayerBarrio;
   marker: Parquimetro;
+
 
   constructor( private dataFormService: DataFormService,
                private polygonService: MapPolygonService,

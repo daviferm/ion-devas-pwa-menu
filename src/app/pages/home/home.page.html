@@ -5,6 +5,6 @@
     <div>
 
     </div>
-    <app-mapa *ngIf="!searchMap"></app-mapa>
+    <app-mapa *ngIf="!searchMap" [zoomMap]="zoomMapa"></app-mapa>
     <app-search-map *ngIf="searchMap" [marcador]="marker" [polygon]="polygon" (closeMap)="cerrarMapa($event)"></app-search-map>
 </ion-content>

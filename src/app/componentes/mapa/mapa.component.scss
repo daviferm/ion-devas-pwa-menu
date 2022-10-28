@@ -1,0 +1,110 @@
+main {
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+}
+
+.modal-inf {
+    position: absolute;
+    top: 55px;
+    left: 0px;
+    width: 94%;
+    height: auto;
+    margin-left: 3%;
+    border-radius: 8px;
+    background-color: rgba(43, 96, 91, 0.8);
+    z-index: 1000000;
+}
+
+.modal-inf p {
+    color: white;
+    text-align: center;
+    margin: .4rem 0;
+}
+
+.modal-soporte {
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    width: 96%;
+    margin-left: 2%;
+    height: auto;
+    z-index: 1000000;
+}
+
+.modal-soporte ion-item {
+    border-radius: 20px;
+    background-color: var(--ion-color-medium);
+}
+
+.modal-soporte ion-item ion-icon {
+    font-size: 1.1rem;
+}
+
+.modal-soporte ion-item ion-label {
+    font-size: .85rem;
+    text-align: center;
+}
+
+agm-map {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+}
+
+ion-fab-button {
+    margin-bottom: 60px !important;
+}
+
+@keyframes bounceInDown {
+    from,
+    60%,
+    75%,
+    90%,
+    to {
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    0% {
+        opacity: 0;
+        transform: translate3d(0, -3000px, 0);
+    }
+    60% {
+        opacity: 1;
+        transform: translate3d(0, 25px, 0);
+    }
+    75% {
+        transform: translate3d(0, -10px, 0);
+    }
+    90% {
+        transform: translate3d(0, 5px, 0);
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.bounceInDown {
+    animation-name: bounceInDown;
+}
+
+@keyframes bounceOutUp {
+    20% {
+        transform: translate3d(0, -10px, 0);
+    }
+    40%,
+    45% {
+        opacity: 1;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate3d(0, -2000px, 0);
+    }
+}
+
+.bounceOutUp {
+    animation-name: bounceOutUp;
+    animation-fill-mode: forwards;
+}

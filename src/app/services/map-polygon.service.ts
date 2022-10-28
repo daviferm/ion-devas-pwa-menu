@@ -6,7 +6,7 @@ import { LayerBarrio } from '../interfaces/markers.interface';
 })
 export class MapPolygonService {
 
-  fillColor = '#5cc9f5';
+  public fillColor = '#5cc9f5';
   strokeWeight = .5;
   geodesic = true
 
