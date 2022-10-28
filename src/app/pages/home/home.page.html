@@ -1,0 +1,10 @@
+<app-navbar [pageActive]="'home'">
+</app-navbar>
+
+<ion-content>
+    <div>
+
+    </div>
+    <app-mapa *ngIf="!searchMap"></app-mapa>
+    <app-search-map *ngIf="searchMap" [marcador]="marker" [polygon]="polygon" (closeMap)="cerrarMapa($event)"></app-search-map>
+</ion-content>

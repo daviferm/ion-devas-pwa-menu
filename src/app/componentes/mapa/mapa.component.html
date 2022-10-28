@@ -1,0 +1,5 @@
+<google-map width="100%" height="100vh" [options]="options" (mapClick)="mapClick($event)">
+    <div *ngFor="let polygon of vertices; let i = index">
+        <map-polygon #vertice [paths]="polygon.coords" [options]="polygon.options" (polygonClick)="polygonClick(polygon, i)"></map-polygon>
+    </div>
+</google-map>

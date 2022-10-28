@@ -1,0 +1,30 @@
+<div #myHeader class="cabecera">
+    <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+        <div class="main-form">
+            <div class="content-btn">
+                <!-- [ngClass]="{'barrios-btn': pageActive == 'barrios', 'content-btn': pageActive != 'barrios'}" (click)="showPicker()" -->
+                <ion-button #btnBarrio class="btn btn-select">
+                    <!-- <span> {{ selectBarrio }} </span>
+                  <ion-icon slot="end" name="chevron-down-outline"></ion-icon> -->
+                    <ion-list>
+                        <ion-item>
+                            <ion-select [interfaceOptions]="customPopoverOptions" interface="alert" cancel-text="Cancelar" placeholder="Barrios" multiple="false" [selectedText]="selectBarrio" (ionChange)="ionChangeSelect($event)">
+                                <ion-select-option *ngFor="let barrio of barriosHTML" [value]="barrio | slice:0:3">{{ barrio }}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-list>
+                </ion-button>
+                <ion-button *ngIf="pageActive != 'barrios'" class="btn btn-input">
+                    <ion-input #inputNumber inputmode="numeric" placeholder="Número" (ionChange)="ionChangeInpt(inputNumber)"></ion-input>
+                </ion-button>
+                <ion-button *ngIf="tareas" size="small" class="btn-search" (click)="mostrarParquimetro()" disabled="true">
+                    <ion-icon name="search" color="light"></ion-icon>
+                </ion-button>
+                <ion-button *ngIf="!tareas" size="small" class="btn-search" (click)="mostrarParquimetro()">
+                    <ion-icon name="search" color="light"></ion-icon>
+                </ion-button>
+            </div>
+        </div>
+    </ion-buttons>
+</div>
