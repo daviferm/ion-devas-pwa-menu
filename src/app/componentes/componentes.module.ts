@@ -7,6 +7,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { MapaComponent } from './mapa/mapa.component'
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchMapComponent } from './search-map/search-map.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { SearchMapComponent } from './search-map/search-map.component';
     CommonModule,
     IonicModule,
     FormsModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    PipesModule
   ]
 })
 export class ComponentesModule { }

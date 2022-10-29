@@ -9,10 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
 
-// Google maps
-import { ComponentesModule } from './componentes/componentes.module';
-
 // Componentes
+import { ComponentesModule } from './componentes/componentes.module';
 
 
 @NgModule({

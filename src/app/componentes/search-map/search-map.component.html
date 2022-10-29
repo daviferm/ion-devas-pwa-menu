@@ -1,13 +1,47 @@
+<div *ngIf="marcador" class="modal-alias bounceInDown">
+    <p class="ion-text-center text-alias"> {{ marcador.alias }} </p>
+</div>
+<div class="modal-inf animated fadeIn fast" *ngIf="modalTop">
+    <p><span class="badge badge-dark madal-text mr-2">Barrio: </span> {{ textInfo.barrio }} </p>
+    <p><span class="badge badge-dark madal-text mr-2">Parquímetros:</span> {{ textInfo.numero }}</p>
+</div>
+
+<google-map width="100%" height="100vh" [center]="{lat: marcador.latitud, lng: marcador.longitud}" [options]="options" (mapClick)="outPolygon()">
+
+    <div>
+        <map-polygon #vertice [paths]="polygon.coords" [options]="polygon.options" (polygonClick)="polygonClick()"></map-polygon>
+    </div>
+
+    <map-marker [position]="{lat: marcador.latitud, lng: marcador.longitud}" [icon]="marcador | imgFabricante" [options]="markerOptions"></map-marker>
+</google-map>
 <ion-fab vertical="top" horizontal="start" slot="fixed">
     <ion-fab-button class="btn-close" (click)="cerrarMapa()">
         <ion-icon name="close"></ion-icon>
     </ion-fab-button>
 </ion-fab>
-<google-map width="100%" height="100vh" [center]="{lat: marcador.latitud, lng: marcador.longitud}" [options]="options" (mapClick)="mapClick($event)">
-
-    <div>
-        <map-polygon #vertice [paths]="polygon.coords" [options]="polygon.options" (polygonClick)="polygonClick(polygon)"></map-polygon>
-    </div>
-
-    <map-marker [position]="{lat: marcador.latitud, lng: marcador.longitud}" [options]="markerOptions"></map-marker>
-</google-map>
+<ion-fab *ngIf="markers.length <= 0" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="light" (click)="seguirPosition()">
+        <ion-icon *ngIf="!siguiendo" name="navigate-outline"></ion-icon>
+        <ion-icon class="animated fadeIn" *ngIf="siguiendo" name="navigate"></ion-icon>
+    </ion-fab-button>
+</ion-fab>
+<ion-fab *ngIf="marcador" class="btn-navegar" vertical="bottom" horizontal="start" edge slot="fixed">
+    <ion-fab-button>
+        <ion-icon name="map-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="end">
+        <ion-fab-button color="success" (click)="comoLlegar( marker, 'google' )">
+            <!-- <ion-icon name="logo-google"></ion-icon> -->
+            <img src="assets/img/google-maps-fab.png">
+        </ion-fab-button>
+        <ion-fab-button *ngIf="isMobileIphone()" color="dark" (click)="comoLlegar( marker, 'apple' )">
+            <!-- <ion-icon name="logo-apple"></ion-icon> -->
+            <img src="assets/img/apple-map.png">
+        </ion-fab-button>
+        <ion-fab-button color="dark" (click)="comoLlegar( marker, 'waze' )">
+            <!-- <ion-icon name="logo-apple"></ion-icon> -->
+            <img src="assets/img/waze-map.png">
+        </ion-fab-button>
+    </ion-fab-list>
+</ion-fab>
+<!-- <app-detalles-modal *ngIf="openModal" [item]="infoMarker" [titulo]="tareaTitle" (cerrarAlert)="cerrarModalInfo($event)" (tareaRealizada)="tareaRealizada($event)"></app-detalles-modal> -->

@@ -9,7 +9,7 @@
                   <ion-icon slot="end" name="chevron-down-outline"></ion-icon> -->
                     <ion-list>
                         <ion-item>
-                            <ion-select [interfaceOptions]="customPopoverOptions" interface="alert" cancel-text="Cancelar" placeholder="Barrios" multiple="false" [selectedText]="selectBarrio" (ionChange)="ionChangeSelect($event)">
+                            <ion-select mode="ios" [interfaceOptions]="customPopoverOptions" interface="alert" cancel-text="Cancelar" placeholder="Barrios" multiple="false" [selectedText]="selectBarrio" (ionChange)="ionChangeSelect($event)">
                                 <ion-select-option *ngFor="let barrio of barriosHTML" [value]="barrio | slice:0:3">{{ barrio }}</ion-select-option>
                             </ion-select>
                         </ion-item>
