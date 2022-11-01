@@ -12,6 +12,7 @@ export class AppComponent {
     { title: 'Incidencias', url: '/incidencias', icon: 'warning' },
     { title: 'Alta Rotación', url: '/alta-rotacion', icon: 'car' },
     { title: 'Soporte', url: '/soporte', icon: 'cog' },
+    // { title: 'Soporte', url: '/soporte', icon: 'cog' },
   ];
 
   constructor() {}

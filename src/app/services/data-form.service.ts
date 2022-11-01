@@ -21,9 +21,8 @@ export class DataFormService {
   selector: any;
   input: any;
   urlDataLocal = '../../assets/data/data.json';
-  // urlData = 'https://app-devas.firebaseio.com/parkimetros.json';
-  urlDataFS = 'https://firestore-devas.firebaseio.com/parkimetros.json';
-  urlElemFS = 'https://firestore-devas.firebaseio.com/parkimetros/';
+  urlDataFS = 'https://app-devas.firebaseio.com/parkimetros.json';
+  urlElemFS = 'https://app-devas.firebaseio.com/parkimetros/';
 
   public DB: Parquimetro[] = [];
   barrio: any = [];

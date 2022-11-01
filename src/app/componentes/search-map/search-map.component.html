@@ -6,13 +6,14 @@
     <p><span class="badge badge-dark madal-text mr-2">Parquímetros:</span> {{ textInfo.numero }}</p>
 </div>
 
-<google-map width="100%" height="100vh" [center]="{lat: marcador.latitud, lng: marcador.longitud}" [options]="options" (mapClick)="outPolygon()">
+<google-map width="100%" height="100vh" [center]="{lat: marcador.latitud, lng: marcador.longitud}" [options]="options">
 
     <div>
-        <map-polygon #vertice [paths]="polygon.coords" [options]="polygon.options" (polygonClick)="polygonClick()"></map-polygon>
+        <map-polygon #vertice [paths]="polygon.coords" [options]="polygon.options"></map-polygon>
     </div>
 
     <map-marker [position]="{lat: marcador.latitud, lng: marcador.longitud}" [icon]="marcador | imgFabricante" [options]="markerOptions"></map-marker>
+    <map-marker *ngIf="gps" [position]="{lat: latGps, lng: lngGps}" [icon]="imgPosition"></map-marker>
 </google-map>
 <ion-fab vertical="top" horizontal="start" slot="fixed">
     <ion-fab-button class="btn-close" (click)="cerrarMapa()">
@@ -30,15 +31,15 @@
         <ion-icon name="map-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="end">
-        <ion-fab-button color="success" (click)="comoLlegar( marker, 'google' )">
+        <ion-fab-button color="success" (click)="comoLlegar( marcador, 'google' )">
             <!-- <ion-icon name="logo-google"></ion-icon> -->
             <img src="assets/img/google-maps-fab.png">
         </ion-fab-button>
-        <ion-fab-button *ngIf="isMobileIphone()" color="dark" (click)="comoLlegar( marker, 'apple' )">
+        <ion-fab-button *ngIf="isMobileIphone()" color="dark" (click)="comoLlegar( marcador, 'apple' )">
             <!-- <ion-icon name="logo-apple"></ion-icon> -->
             <img src="assets/img/apple-map.png">
         </ion-fab-button>
-        <ion-fab-button color="dark" (click)="comoLlegar( marker, 'waze' )">
+        <ion-fab-button color="dark" (click)="comoLlegar( marcador, 'waze' )">
             <!-- <ion-icon name="logo-apple"></ion-icon> -->
             <img src="assets/img/waze-map.png">
         </ion-fab-button>

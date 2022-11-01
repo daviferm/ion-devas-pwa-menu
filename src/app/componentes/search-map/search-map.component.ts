@@ -1,22 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Parquimetro, LayerBarrio } from 'src/app/interfaces/markers.interface';
 import { DataFormService } from '../../services/data-form.service';
 import { ListaInteface, IncidenciaInteface } from '../../interfaces/markers.interface';
-import { Subject, Subscription } from 'rxjs';
-import { GestionRutasService } from '../../services/gestion-rutas.service';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { StorageService } from '../../services/storage.service';
+import { GestionRutasService } from 'src/app/services/gestion-rutas.service';
+import { Browser } from '@capacitor/browser';
+import { GeolocationService } from '../../services/geolocation.service';
 
 @Component({
   selector: 'app-search-map',
   templateUrl: './search-map.component.html',
   styleUrls: ['./search-map.component.scss'],
 })
-export class SearchMapComponent implements OnInit {
+export class SearchMapComponent implements OnInit, OnDestroy {
 
   @Output() closeMap: EventEmitter<boolean> = new EventEmitter();
   @Output() itemEliminado: EventEmitter<ListaInteface> = new EventEmitter();
-  @Input() latitud: number;
-  @Input() longitud: number;
   @Input() zoom: number = 12.5;
   @Input() markers: Parquimetro[] = [];
   @Input() marker: Parquimetro;
@@ -28,23 +28,23 @@ export class SearchMapComponent implements OnInit {
   @Input() tarea: ListaInteface;
   @Input() pagina: string;
 
+  latGps: number;
+  lngGps: number;
+  gps = false;
+  imgPosition = 'assets/img/marker-car.png';
+
   tareaTitle: string;
   infoMarker: Parquimetro;
   infoWindow: boolean = true;
   modalTop: boolean;
   textInfo = { barrio: '', numero: 0 };
-  idxBarrioSelected: number;
   openModal: boolean = false;
-  latGps: number;
-  lngGps: number;
-  gps = false;
   siguiendo: boolean = false;
   $subscription: Subscription;
   $obsLocation: Subject<unknown>;
   $obsGps: Subscription;
   $obsCenterGps: Subscription;
-  imgPosition = 'assets/img/marker-car.png';
-  imgMarcadores = 'assets/img/icono-position.png';
+  // imgMarcadores = 'assets/img/icono-position.png';
 
   @Input() marcador: Parquimetro;
   @Input() polygon: LayerBarrio;
@@ -65,10 +65,26 @@ export class SearchMapComponent implements OnInit {
 
   constructor( private dataFormService: DataFormService,
                private gestionRutasService: GestionRutasService,
-               private storage: StorageService ) { }
+               private storage: StorageService,
+               private geolocationService: GeolocationService ) { }
 
   ngOnInit() {
-    // console.log(navigator.userAgent);
+    this.$obsLocation = new Subject();
+    this.$subscription = this.geolocationService.watchPosition().subscribe( this.$obsLocation );
+    this.$obsGps = this.$obsLocation.subscribe( ( data: GeolocationPosition ) => {
+        this.latGps = data.coords.latitude;
+        this.lngGps = data.coords.longitude;
+        this.gps = true;
+    } )
+  }
+
+  ngOnDestroy() {
+    this.$subscription.unsubscribe();
+    console.log('Destroy SerachMap..');
+  }
+
+  ionViewWillEnter() {
+    console.log('ionViewWillEnter');
   }
   isMobileIphone(){
     return (
@@ -128,22 +144,6 @@ export class SearchMapComponent implements OnInit {
   }
 
 
-
-  polygonClick() {
-    this.barrioPolygon.options.fillColor = 'green';
-    const numBarrio = this.barrioPolygon.id.substring(0, 3);
-    const barrio = this.dataFormService.obtenerNumeroParkimetros(numBarrio);
-    this.textInfo.numero = barrio;
-    this.textInfo.barrio = this.barrioPolygon.id;
-    this.modalTop = true;
-    // this.idxBarrioSelected = idx;
-  }
-
-  outPolygon() {
-    this.barrioPolygon.options.fillColor = 'orange';
-    this.modalTop = false;
-  }
-
   cerrarMapa() {
     this.closeMap.emit( true );
   }
@@ -165,14 +165,15 @@ export class SearchMapComponent implements OnInit {
       this.openModal = false;
     }
   }
-  comoLlegar( marker: Parquimetro, mapa: string ) {
-    // if ( mapa === 'google' ) {
-    //   this.iab.create(`https://maps.google.com/?q=${marker.latitud},${marker.longitud}`);
-    // } else if ( mapa === 'apple' ) {
-    //   this.iab.create(`maps://maps.google.com/maps?daddr=${marker.latitud},${marker.longitud}&amp;ll=`);
-    // } else {
-    //   this.iab.create(`https://www.waze.com/ul?ll=${marker.latitud}%2C${marker.longitud}&navigate=yes&zoom=17`);
-    // }
+  async comoLlegar( marker: Parquimetro, mapa: string ) {
+
+    if ( mapa === 'google' ) {
+      await Browser.open({url: `https://maps.google.com/?q=${marker.latitud},${marker.longitud}`});
+    } else if ( mapa === 'apple' ) {
+      await Browser.open({url: `maps://maps.google.com/maps?daddr=${marker.latitud},${marker.longitud}&amp;ll=`});
+    } else {
+      await Browser.open({url: `https://www.waze.com/ul?ll=${marker.latitud}%2C${marker.longitud}&navigate=yes&zoom=17`});
+    }
   }
 
   dragStart( event ) {
