@@ -3,6 +3,7 @@ import { DataFormService } from '../../services/data-form.service';
 import { Parquimetro, LayerBarrio } from '../../interfaces/markers.interface';
 import { MapPolygonService } from '../../services/map-polygon.service';
 import { NavbarService } from '../../componentes/navbar/navbar.service';
+import { GestionRutasService } from '../../services/gestion-rutas.service';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +20,14 @@ export class HomePage implements OnInit {
 
   constructor( private dataFormService: DataFormService,
                private polygonService: MapPolygonService,
-               private navbarService: NavbarService ) { }
+               private navbarService: NavbarService,
+               private gestionRutasService: GestionRutasService ) {
+
+    this.gestionRutasService.pageActive = 'home';
+  }
 
   ngOnInit() {
+
     this.dataFormService.enviarPageHome.subscribe( (item: Parquimetro) => {
       if ( item ) {
         let idBarrio = item.barrio.slice(0,3);

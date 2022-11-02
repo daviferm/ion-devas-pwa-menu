@@ -1,0 +1,36 @@
+<div #mdlUpload class="fondo-negro animated fadeIn fast" (click)="cerrarModal($event)">
+    <ion-card>
+        <ion-card-header>
+            <ion-toolbar>
+                <ion-buttons slot="end">
+                    <ion-button (click)="cerrarModal($event, true)">
+                        <ion-icon slot="end" name="close"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <h5 class="p-title">Guardar Imagen</h5>
+            </ion-toolbar>
+            <!-- <ion-card-subtitle>Selecciona una imagen para guardar</ion-card-subtitle> -->
+        </ion-card-header>
+
+        <ion-card-content>
+            <!-- <input class="input-file" type="file" alife-file-to-base64 multiple (onFileChanged)="onFileChanged($event)" /> -->
+            <ion-input type="file" alife-file-to-base64 multiple (onFileChanged)="onFileChanged($event)"></ion-input>
+            <div class="btn-send">
+                <div #botomImg>
+                    <ion-button class="ion-margin" size="small" color="primary" (click)="guardarImagen()" disabled="true">
+                        <ion-icon slot="end" name="cloud-upload-outline"></ion-icon>
+                        <ion-label *ngIf="!Tarea.items[idxItem].urlImg">Guardar</ion-label>
+                        <ion-label *ngIf="Tarea.items[idxItem].urlImg">Actualizar</ion-label>
+                    </ion-button>
+                </div>
+                <ion-button class="ion-margin" *ngIf="Tarea.items[idxItem].urlImg" size="small" color="danger" (click)="eliminarImg()">
+                    <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+            </div>
+            <div>
+                <ion-img *ngIf="imagen" [src]="imagen"></ion-img>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+</div>

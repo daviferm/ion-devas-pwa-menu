@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Parquimetro, LayerBarrio } from 'src/app/interfaces/markers.interface';
-import { DataFormService } from '../../services/data-form.service';
 import { ListaInteface, IncidenciaInteface } from '../../interfaces/markers.interface';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { StorageService } from '../../services/storage.service';
@@ -20,6 +19,7 @@ export class SearchMapComponent implements OnInit, OnDestroy {
   @Input() zoom: number = 12.5;
   @Input() markers: Parquimetro[] = [];
   @Input() marker: Parquimetro;
+  @Input() centroMapa: {lat: number, lng: number};
   @Input() itemSoporte: Parquimetro;
   @Input() marcadores: Parquimetro[] = [];
   @Input() barriosSelec: LayerBarrio[];
@@ -44,7 +44,7 @@ export class SearchMapComponent implements OnInit, OnDestroy {
   $obsLocation: Subject<unknown>;
   $obsGps: Subscription;
   $obsCenterGps: Subscription;
-  // imgMarcadores = 'assets/img/icono-position.png';
+  imgMarcadores = 'assets/img/pin-items.png';
 
   @Input() marcador: Parquimetro;
   @Input() polygon: LayerBarrio;
@@ -63,8 +63,7 @@ export class SearchMapComponent implements OnInit, OnDestroy {
   vertices: LayerBarrio[];
 
 
-  constructor( private dataFormService: DataFormService,
-               private gestionRutasService: GestionRutasService,
+  constructor( private gestionRutasService: GestionRutasService,
                private storage: StorageService,
                private geolocationService: GeolocationService ) { }
 
@@ -80,12 +79,8 @@ export class SearchMapComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.$subscription.unsubscribe();
-    console.log('Destroy SerachMap..');
   }
 
-  ionViewWillEnter() {
-    console.log('ionViewWillEnter');
-  }
   isMobileIphone(){
     return (
       (navigator.userAgent.match(/iPhone/i)) ||

@@ -6,5 +6,5 @@
 
     </div>
     <app-mapa *ngIf="!searchMap" [zoomMap]="zoomMapa"></app-mapa>
-    <app-search-map *ngIf="searchMap" [marcador]="marker" [polygon]="polygon" (closeMap)="cerrarMapa($event)"></app-search-map>
+    <app-search-map *ngIf="searchMap" [pagina]=" 'home' " [marcador]="marker" [centroMapa]="{lat: marker.latitud, lng: marker.longitud}" [polygon]="polygon" (closeMap)="cerrarMapa($event)"></app-search-map>
 </ion-content>

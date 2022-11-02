@@ -97,7 +97,7 @@ export class MapaComponent implements OnInit {
     this.vertices.forEach( v => {
       v.options.fillColor = this.polygonService.fillColor;
     } )
-    this.vertices[idx].options.fillColor = 'orange';
+    this.vertices[idx].options.fillColor = '#537d79';
     const numBarrio = this.vertices[idx].id.substring(0, 3);
     const barrio = this.dataFormService.obtenerNumeroParkimetros(numBarrio);
     this.textInfo.numero = barrio;
@@ -110,11 +110,11 @@ export class MapaComponent implements OnInit {
     }, .1 )
   }
 
-  outPolygon(idx: number) {
-    console.log(idx);
-    this.barriosFull[idx].options.fillColor = 'orange';
-    this.modalTop = false;
-  }
+  // outPolygon(idx: number) {
+  //   console.log(idx);
+  //   this.barriosFull[idx].options.fillColor = '#537d79';
+  //   this.modalTop = false;
+  // }
   mapaClick() {
     this.vertices.forEach( v => {
       v.options.fillColor = this.polygonService.fillColor;

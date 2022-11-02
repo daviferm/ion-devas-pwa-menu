@@ -6,13 +6,16 @@
     <p><span class="badge badge-dark madal-text mr-2">Parquímetros:</span> {{ textInfo.numero }}</p>
 </div>
 
-<google-map width="100%" height="100vh" [center]="{lat: marcador.latitud, lng: marcador.longitud}" [options]="options">
+<google-map width="100%" height="100vh" [center]="centroMapa" [options]="options">
 
-    <div>
+    <div *ngIf="pagina == 'home'">
         <map-polygon #vertice [paths]="polygon.coords" [options]="polygon.options"></map-polygon>
+        <map-marker [position]="{lat: marcador.latitud, lng: marcador.longitud}" [icon]="marcador | imgFabricante" [options]="markerOptions"></map-marker>
+    </div>
+    <div *ngIf="pagina == 'listas'">
+        <map-marker *ngFor="let item of marcadores" [position]="{lat: item.latitud, lng: item.longitud}" [label]="item.alias | slice:6:10" [icon]="imgMarcadores" (mapClick)="abrirModal(item)"></map-marker>
     </div>
 
-    <map-marker [position]="{lat: marcador.latitud, lng: marcador.longitud}" [icon]="marcador | imgFabricante" [options]="markerOptions"></map-marker>
     <map-marker *ngIf="gps" [position]="{lat: latGps, lng: lngGps}" [icon]="imgPosition"></map-marker>
 </google-map>
 <ion-fab vertical="top" horizontal="start" slot="fixed">
@@ -45,4 +48,4 @@
         </ion-fab-button>
     </ion-fab-list>
 </ion-fab>
-<!-- <app-detalles-modal *ngIf="openModal" [item]="infoMarker" [titulo]="tareaTitle" (cerrarAlert)="cerrarModalInfo($event)" (tareaRealizada)="tareaRealizada($event)"></app-detalles-modal> -->
+<app-detalles-modal *ngIf="openModal" [item]="infoMarker" [titulo]="tareaTitle" (cerrarAlert)="cerrarModalInfo($event)" (tareaRealizada)="tareaRealizada($event)"></app-detalles-modal>

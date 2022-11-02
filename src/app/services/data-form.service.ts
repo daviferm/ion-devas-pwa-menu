@@ -117,7 +117,6 @@ export class DataFormService {
   // Enviar registro (parquímetro) a la página que lo solicite
   // =========================================================
   sendRegister(item: Parquimetro, page: string) {
-    console.log(page);
     
     if ( page === 'home' ) {
       // Enviar a home
