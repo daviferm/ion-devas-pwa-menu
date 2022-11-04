@@ -57,6 +57,14 @@ ion-list {
     border-top-right-radius: 10px !important;
 }
 
+.btn-modal {
+    height: 35px;
+    border-radius: 50px;
+    ion-label {
+        font-size: 1rem;
+    }
+}
+
 .fade-in {
     animation: fadeIn ease-out 0.2s;
 }

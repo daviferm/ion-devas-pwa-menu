@@ -12,10 +12,10 @@
                             <ion-card-title>Listas de Tareas</ion-card-title>
                         </ion-card-header>
                         <ion-card-content>
-                            <ion-list class="card-items">
+                            <ion-list mode="ios" class="card-items">
                                 <ion-reorder-group [disabled]="reorderDisable" (ionItemReorder)="doReorder($event)">
                                     <ion-item-sliding class="animated fadeIn fast" (ionSwipe)="borrarTarea(i)" *ngFor="let tarea of tareasLista; let i = index">
-                                        <ion-item color="light" detail (click)="nextSlide(tarea, i)">
+                                        <ion-item mode="ios" color="light" detail (click)="nextSlide(tarea, i)">
                                             <ion-reorder slot="start"></ion-reorder>
                                             <!-- <ion-icon name="list-outline" slot="start"></ion-icon> -->
                                             <ion-label class="ion-text-center"> {{ tarea.titulo }} </ion-label>
@@ -56,9 +56,9 @@
                             </ion-item>
                             <div class="list-items">
                                 <ion-reorder-group [disabled]="reorderDisable" (ionItemReorder)="doReorder($event)">
-                                    <ion-list *ngFor="let item of tareaActiva.items; let i = index">
+                                    <ion-list mode="ios" *ngFor="let item of tareaActiva.items; let i = index">
                                         <ion-item-sliding class="animated fadeIn fast" (ionSwipe)="borrarItem(i)">
-                                            <ion-item color="light" detail>
+                                            <ion-item mode="ios" color="light" detail>
                                                 <ion-reorder slot="start"></ion-reorder>
                                                 <ion-label class="ion-text-center" (click)="verInfo(item, tareaActiva.titulo)"> {{ item.alias }} </ion-label>
                                                 <ion-icon *ngIf="item.urlImg" name="image-outline" class="ion-img" (click)="mostrarImagen(i)"></ion-icon>

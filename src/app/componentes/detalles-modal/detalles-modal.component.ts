@@ -22,16 +22,16 @@ export class DetallesModalComponent implements OnInit {
     this.rutaActiva = this.gestionRutasService.pageActive;
   }
 
-  comoLlegar( marker: Parquimetro, google: boolean ) {
+  async comoLlegar( marker: Parquimetro, mapa: string ) {
 
-    console.log('Google Maps: ', google);
-    if ( google ) {
-      Browser.open({url: `https://maps.google.com/?q=${marker.latitud},${marker.longitud}`});
+    if ( mapa === 'google' ) {
+      await Browser.open({url: `https://maps.google.com/?q=${marker.latitud},${marker.longitud}`});
+    } else if ( mapa === 'apple' ) {
+      await Browser.open({url: `maps://maps.google.com/maps?daddr=${marker.latitud},${marker.longitud}&amp;ll=`});
     } else {
-      Browser.open({url: `maps://maps.google.com/maps?daddr=${marker.latitud},${marker.longitud}&amp;ll=`});
+      await Browser.open({url: `https://www.waze.com/ul?ll=${marker.latitud}%2C${marker.longitud}&navigate=yes&zoom=17`});
     }
   }
-
   closeModal( event ) {
     if ( event.target.className.includes('modal-background') ) {
       this.cerrarAlert.emit( true );
@@ -41,4 +41,14 @@ export class DetallesModalComponent implements OnInit {
   tareaHecha( item: Parquimetro ) {
     this.tareaRealizada.emit( item );
   }
+
+
+  isMobileIphone(){
+    return (
+      (navigator.userAgent.match(/iPhone/i)) ||
+      (navigator.userAgent.match(/iPod/i)) ||
+      (navigator.userAgent.match(/iPad/i))
+    );
+}
+
 }
