@@ -29,6 +29,6 @@
 
 <google-map width="100%" height="100vh" [zoom]="zoomMap" [options]="options" (mapClick)="mapaClick()">
     <div *ngIf="palygonos">
-        <map-polygon *ngFor="let polygon of vertices; let i = index" #vertice [paths]="polygon.coords" [options]="polygon.options" (polygonClick)="sobrePolygon(i)" (polygonMouseout)="outPolygon(i)"></map-polygon>
+        <map-polygon *ngFor="let polygon of vertices; let i = index" #vertice [paths]="polygon.coords" [options]="polygon.options" (polygonClick)="sobrePolygon(i)"></map-polygon>
     </div>
 </google-map>
