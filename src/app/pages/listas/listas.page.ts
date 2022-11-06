@@ -162,16 +162,14 @@ export class ListasPage implements OnInit {
   // =================================================
   mostrarMapa(): void {
     if ( this.tareaActiva.items.length > 0 ) {
-    this.navbarService.mostrarOcultarNavbar.emit( false );
-    this.mapSearch = true;
-    this.gestionRutasService.listasPage = true;
-    // console.log(this.myNavSub);
-    this.marcadores = this.tareaActiva.items;
-    this.centerMap = {lat: Number(this.tareaActiva.items[0].latitud), lng: Number(this.tareaActiva.items[0].longitud)};
-    // this.centerLat = Number(this.tareaActiva.items[0].latitud);
-    // this.centerLng = Number(this.tareaActiva.items[0].longitud);
+      this.navbarService.mostrarOcultarNavbar.emit( false );
+      this.gestionRutasService.listasPage = true;
+      this.marcadores = this.tareaActiva.items;
+      this.centerMap = {lat: Number(this.tareaActiva.items[0].latitud), lng: Number(this.tareaActiva.items[0].longitud)};
+      this.mapSearch = true;
+    }
   }
-  }
+ 
   // =================================================
   // Cerrar mapa
   // =================================================

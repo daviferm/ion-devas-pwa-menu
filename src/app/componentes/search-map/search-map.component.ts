@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 import { Parquimetro, LayerBarrio } from 'src/app/interfaces/markers.interface';
 import { ListaInteface, IncidenciaInteface } from '../../interfaces/markers.interface';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, timer } from 'rxjs';
 import { StorageService } from '../../services/storage.service';
 import { GestionRutasService } from 'src/app/services/gestion-rutas.service';
 import { Browser } from '@capacitor/browser';
 import { GeolocationService } from '../../services/geolocation.service';
+import { MapMarker, GoogleMap } from '@angular/google-maps';
+
 
 @Component({
   selector: 'app-search-map',
@@ -13,6 +15,8 @@ import { GeolocationService } from '../../services/geolocation.service';
   styleUrls: ['./search-map.component.scss'],
 })
 export class SearchMapComponent implements OnInit, OnDestroy {
+
+  @ViewChild(MapMarker, {static: false}) mapMarker: MapMarker;
 
   @Output() closeMap: EventEmitter<boolean> = new EventEmitter();
   @Output() itemEliminado: EventEmitter<ListaInteface> = new EventEmitter();
@@ -48,7 +52,7 @@ export class SearchMapComponent implements OnInit, OnDestroy {
 
   @Input() marcador: Parquimetro;
   @Input() polygon: LayerBarrio;
-  imgIcon: string = 'assets/img/parkeon.png';
+  delay = timer(1);
 
   options: google.maps.MapOptions = {
     zoom: 15,
@@ -57,15 +61,15 @@ export class SearchMapComponent implements OnInit, OnDestroy {
     rotateControl: true
   };
   markerOptions: google.maps.MarkerOptions = {
+    opacity: 1,
+    // animation: DROP,
     // icon: this.imgIcon
-    // animation: DROP
   }
   vertices: LayerBarrio[];
 
-
   constructor( private gestionRutasService: GestionRutasService,
                private storage: StorageService,
-               private geolocationService: GeolocationService ) { }
+               private geolocationService: GeolocationService ) {}
 
   ngOnInit() {
     this.$obsLocation = new Subject();
@@ -75,6 +79,7 @@ export class SearchMapComponent implements OnInit, OnDestroy {
         this.lngGps = data.coords.longitude;
         this.gps = true;
     } )
+
   }
 
   ngOnDestroy() {
@@ -94,8 +99,8 @@ export class SearchMapComponent implements OnInit, OnDestroy {
     this.tareaTitle = incidencia.titulo;
     this.openModal = true;
   }
-  abrirModal( marker: Parquimetro ) {
-    this.infoMarker = marker;
+  abrirModal( marcador: Parquimetro ) {
+    this.infoMarker = marcador;
     this.tareaTitle = this.tarea.titulo;
     this.openModal = true;
   }
@@ -109,9 +114,15 @@ export class SearchMapComponent implements OnInit, OnDestroy {
   // Realiza una tarea en función de la ruta
   // =================================================
   tareaRealizada( marker: Parquimetro ) {
+    // this.mapMarker
+
     const ruta = this.gestionRutasService.pageActive;
     switch (ruta) {
       case 'barrios':
+        marker.options.opacity = ( marker.options.opacity === 1  ) ? .5 : 1;
+        marker.info = false;
+        this.delay.subscribe( () => marker.info = true );
+
         if ( !marker.hecho ) {
           this.infoMarker.hecho = true;
           this.infoMarker.opacidad = 0.5;

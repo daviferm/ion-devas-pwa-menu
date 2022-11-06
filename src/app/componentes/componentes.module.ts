@@ -12,6 +12,7 @@ import { DetallesModalComponent } from './detalles-modal/detalles-modal.componen
 import { UploadImgComponent } from './upload-img/upload-img.component';
 
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
@@ -20,14 +21,16 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
     NavbarComponent,
     SearchMapComponent,
     DetallesModalComponent,
-    UploadImgComponent
+    UploadImgComponent,
+    HeaderComponent
   ],
   exports: [
     MapaComponent,
     NavbarComponent,
     SearchMapComponent,
     DetallesModalComponent,
-    UploadImgComponent
+    UploadImgComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,

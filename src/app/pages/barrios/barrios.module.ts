@@ -8,6 +8,7 @@ import { BarriosPageRoutingModule } from './barrios-routing.module';
 
 import { BarriosPage } from './barrios.page';
 import { ComponentesModule } from '../../componentes/componentes.module';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentesModule } from '../../componentes/componentes.module';
     FormsModule,
     IonicModule,
     BarriosPageRoutingModule,
-    ComponentesModule
+    ComponentesModule,
+    PipesModule
   ],
   declarations: [BarriosPage]
 })

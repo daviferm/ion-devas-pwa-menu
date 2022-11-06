@@ -3,10 +3,7 @@
         <ion-menu-button></ion-menu-button>
         <div class="main-form">
             <div class="content-btn">
-                <!-- [ngClass]="{'barrios-btn': pageActive == 'barrios', 'content-btn': pageActive != 'barrios'}" (click)="showPicker()" -->
                 <ion-button #btnBarrio class="btn btn-select">
-                    <!-- <span> {{ selectBarrio }} </span>
-                  <ion-icon slot="end" name="chevron-down-outline"></ion-icon> -->
                     <ion-list>
                         <ion-item>
                             <ion-select mode="ios" [interfaceOptions]="customPopoverOptions" interface="alert" cancel-text="Cancelar" placeholder="Barrios" multiple="false" [selectedText]="selectBarrio" (ionChange)="ionChangeSelect($event)">

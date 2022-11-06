@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, Renderer2, ViewChild } from '@angular/core';
 import { MapPolygonService } from '../../services/map-polygon.service';
 import { LayerBarrio, Parquimetro } from '../../interfaces/markers.interface';
 import { Subscription, Subject } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { DataFormService } from 'src/app/services/data-form.service';
 import { NavbarService } from '../navbar/navbar.service';
+import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-mapa',
@@ -13,13 +14,16 @@ import { NavbarService } from '../navbar/navbar.service';
 })
 export class MapaComponent implements OnInit {
 
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap;
+
   @Input() zoomMap: number;
   options: google.maps.MapOptions = {
     center: {lat: 40.459706, lng: -3.6899817},
     // zoom: 12.5,
     disableDefaultUI: true,
     gestureHandling: 'greedy',
-    rotateControl: true
+    rotateControl: true,
+    panControl: true
   };
   vertices: LayerBarrio[];
   palygonos: boolean = true;
@@ -64,6 +68,9 @@ export class MapaComponent implements OnInit {
   
   ngOnInit(): void {
     this.infoWindow = true;
+  }
+  logCenter() {
+    console.log(JSON.stringify(this.map.getCenter()))
   }
 
   obtenerPosicion() {

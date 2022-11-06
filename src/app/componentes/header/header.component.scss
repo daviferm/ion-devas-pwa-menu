@@ -4,7 +4,7 @@
     width: 100%;
     height: 50px;
     z-index: 100000;
-    background: #222427;
+    background: black;
     ion-buttons {
         padding: 5px 0;
         width: 100% !important;
@@ -48,21 +48,11 @@
     margin-left: 1rem;
 }
 
-ion-list,
-ion-item {
-    --background: white !important;
-    --color: black !important;
-}
-
-ion-select {
-    --placeholder-color: black !important;
-}
-
 .btn-input {
     --background: white !important;
     width: 100px;
     ion-input {
-        --placeholder-color: #555353 !important;
+        --placeholder-color: #000000 !important;
         color: black !important;
     }
 }

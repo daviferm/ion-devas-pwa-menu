@@ -24,6 +24,7 @@ export interface Parquimetro {
   longitud: number;
   info?: boolean;
   opacidad?: number;
+  options?: google.maps.MarkerOptions,
   tarifa: string;
 }
 
