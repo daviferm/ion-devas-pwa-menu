@@ -1,7 +1,53 @@
-<app-navbar></app-navbar>
-
-
+<app-navbar [pageActive]="pageSelected"></app-navbar>
 <ion-content>
-    <h1>Soporte</h1>
+    <!-- <h1 class="ion-text-center">Soporte</h1> -->
+    <swiper class="swiper" #swiper [config]="config" (slidePrevTransitionEnd)="ionSlidePrevEnd()">
+        <ng-template class="slide" swiperSlide>
+            <ion-card>
+                <ion-card-header>
+                    <ion-card-subtitle> INCIDENCIAS DE POSICIÓN </ion-card-subtitle>
+                    <ion-card-title>Soporte</ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content>
+                    <ion-text color="dark">
+                        <p class="ion-p ion-text-center">
+                            Si se trata de modificar un parquímetro existente buscalo en el formulario superior y modifica su posición arrastrando el marcador.
+                        </p>
+                    </ion-text>
+                    <ion-text color="dark">
+                        <p class="ion-p ion-text-center">
+                            Si se trata de un parquímetro que no esta en la base de datos escribe el número en el apartado de abajo y modifica su posición en el mapa.
+                        </p>
+                    </ion-text>
+
+                    <ion-label position="stacked">Escribe el número</ion-label>
+                    <ion-input class="in-slide-one" inputmode="numeric" autocomplete="off" autofocus="false" clearInput="true" color="dark" type="number" (ionChange)="changeInput($event)"></ion-input>
+
+                    <ion-button size="large" color="medium" fill="outline" (click)="mostrarMapa()">
+                        <ion-icon name="map-outline"></ion-icon>
+                        <p>
+                            Mostrar mapa
+                        </p>
+                    </ion-button>
+                </ion-card-content>
+            </ion-card>
+        </ng-template>
+        <ng-template swiperSlide>
+            <app-mapa *ngIf="marcador" [zoomMap]="zoom" [markerSoport]="marcador" [centroMap]="{lat: lat, lng: lng}" [gpsLatLng]="nuevoMarker" (sendCoords)="getCoords($event)"></app-mapa>
+        </ng-template>
+    </swiper>
 
 </ion-content>
+<div *ngIf="mapSearch">
+    <ion-fab class="animated fadeIn fast btn-w" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="success" (click)="enviarPosicion()">
+            <ion-icon name="logo-whatsapp"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <ion-fab vertical="top" horizontal="start" slot="fixed">
+        <ion-fab-button class="btn-next" color="dark" (click)="prevSlide()">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</div>

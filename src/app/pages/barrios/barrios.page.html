@@ -2,8 +2,8 @@
 
 <ion-content>
     <main class="main">
-        <ion-slides #mySubNav pager="true" [options]="slideOpts" (ionSlidePrevEnd)="ionSlidePrevEnd()">
-            <ion-slide>
+        <swiper class="swiper" #swiper [config]="config" (slidePrevTransitionEnd)="ionSlidePrevEnd()">
+            <ng-template class="slide" swiperSlide>
                 <div class="listas">
                     <ion-card>
                         <ion-card-header>
@@ -13,10 +13,84 @@
                         <ion-card-content>
                             <ion-list>
                                 <ion-reorder-group [disabled]="reorderDisable" (ionItemReorder)="doReorder($event)">
-                                    <ion-item-sliding class="animated fadeIn fast" *ngFor="let tarea of tareasBarrios; let i = index">
-                                        <ion-item color="light" detail (click)="nextSlide(tarea)">
+                                    <ion-item-sliding class="animated fadeIn fast" *ngFor="let tarea of tareasBarrios; let i = index" (ionSwipe)="borrarMapa(i)">
+                                        <ion-item color="light" detail (click)="slideNext(tarea)">
                                             <ion-reorder slot="start"></ion-reorder>
                                             <!-- <ion-icon name="list-outline" slot="start"></ion-icon> -->
+                                            <ion-label class="ion-text-center"> {{ tarea.titulo }} </ion-label>
+                                            <div class="badge-items">
+                                                <p class="ion-text-center"> {{ tarea | contarItems }} </p>
+                                                <ion-badge color="dark" class="md-2">Barrio: {{ tarea.barrio | slice:0:2 }} </ion-badge>
+                                            </div>
+                                        </ion-item>
+                                        <ion-item-options side="end">
+                                            <ion-item-option color="danger" (click)="borrarMapa(i)" expandable>Borrar</ion-item-option>
+                                        </ion-item-options>
+                                    </ion-item-sliding>
+                                </ion-reorder-group>
+                            </ion-list>
+                        </ion-card-content>
+                    </ion-card>
+                </div>
+            </ng-template>
+            <ng-template class="slide items" swiperSlide>
+                <div class="listas">
+                    <ion-header>
+                        <ion-toolbar>
+                            <ion-buttons slot="start">
+                                <ion-buttons slot="start">
+                                    <ion-button (click)="slidePrev()" expand="block" fill="clear" shape="round">
+                                        <ion-icon name="chevron-back-outline"></ion-icon>
+                                    </ion-button>
+                                </ion-buttons>
+                            </ion-buttons>
+                            <ion-label *ngIf="tareaActiva"> {{ tareaActiva.titulo }} </ion-label>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-card class="card-items">
+                        <ion-card-header>
+                            <!-- <ion-card-subtitle>Añade parquímetros a la lista</ion-card-subtitle> -->
+                            <ion-card-title *ngIf="tareaActiva"> {{ tareaActiva.titulo }} </ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content *ngIf="tareaActiva">
+                            <ion-item *ngIf="tareaActiva.items.length < 1" color="secondary">
+                                <ion-label color="dark" class="ion-text-center">Ningún elemento añadido...</ion-label>
+                            </ion-item>
+                            <div class="div-items">
+                                <ion-list mode="ios" *ngFor="let item of tareaActiva.items; let i = index">
+                                    <!-- <ion-item-sliding #slider (ionSwipe)="itemOk(slider, i)"> -->
+                                    <ion-item color="light" detail>
+                                        <ion-reorder slot="start"></ion-reorder>
+                                        <ion-label class="ion-text-center"> {{ item.alias }} </ion-label>
+                                        <ion-checkbox color="dark" slot="end" [(ngModel)]="item.hecho" (ionChange)="ionChangeCheck(item)"></ion-checkbox>
+                                    </ion-item>
+                                    <ion-item-options side="end">
+                                        <!-- <ion-item-option *ngIf="!item.hecho" color="success" (click)="itemOk( slider, i)" expandable> Hecho </ion-item-option>
+                                            <ion-item-option *ngIf="item.hecho" color="danger" (click)="itemOk( slider, i)" expandable> Quitar </ion-item-option> -->
+                                    </ion-item-options>
+                                    <!-- </ion-item-sliding> -->
+                                </ion-list>
+                            </div>
+                        </ion-card-content>
+                    </ion-card>
+                </div>
+            </ng-template>
+
+        </swiper>
+        <!-- <ion-slides #mySubNav pager="true" [options]="slideOpts" (ionSlidePrevEnd)="ionSlidePrevEnd()">
+            <ion-slide>
+                <div class="listas">
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-card-subtitle>Crea mapas de barrios</ion-card-subtitle>
+                            <ion-card-title class="titulo-card">Mantenimiento por barrios</ion-card-title>
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-list mode="ios" *ngFor="let tarea of tareasBarrios; let i = index">
+                                <ion-reorder-group [disabled]="reorderDisable" (ionItemReorder)="doReorder($event)">
+                                    <ion-item-sliding #slider class="animated fadeIn fast" (ionSwipe)="borrarMapa(i, slider)">
+                                        <ion-item color="light" detail (click)="nextSlide(tarea)">
+                                            <ion-reorder slot="start"></ion-reorder>
                                             <ion-label class="ion-text-center"> {{ tarea.titulo }} </ion-label>
                                             <div class="badge-items">
                                                 <p class="ion-text-center"> {{ tarea | contarItems }} </p>
@@ -49,7 +123,6 @@
                     </ion-header>
                     <ion-card class="card-items">
                         <ion-card-header>
-                            <!-- <ion-card-subtitle>Añade parquímetros a la lista</ion-card-subtitle> -->
                             <ion-card-title *ngIf="tareaActiva"> {{ tareaActiva.titulo }} </ion-card-title>
                         </ion-card-header>
                         <ion-card-content *ngIf="tareaActiva">
@@ -57,7 +130,7 @@
                                 <ion-label color="dark" class="ion-text-center">Ningún elemento añadido...</ion-label>
                             </ion-item>
                             <div class="div-items">
-                                <ion-list *ngFor="let item of tareaActiva.items; let i = index">
+                                <ion-list mode="ios" *ngFor="let item of tareaActiva.items; let i = index">
                                     <ion-item-sliding #slider (ionSwipe)="itemOk(slider, i)">
                                         <ion-item color="light" detail>
                                             <ion-reorder slot="start"></ion-reorder>
@@ -75,7 +148,7 @@
                     </ion-card>
                 </div>
             </ion-slide>
-        </ion-slides>
+        </ion-slides> -->
         <ion-fab *ngIf="tareaActiva" vertical="bottom" horizontal="start" slot="fixed" edge>
             <ion-fab-button color="secondary" (click)="mostrarMapa()">
                 <ion-icon name="map-outline"></ion-icon>

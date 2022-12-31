@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { SwiperModule } from 'swiper/angular';
 
 import { BarriosPageRoutingModule } from './barrios-routing.module';
 
@@ -17,7 +18,8 @@ import { PipesModule } from '../../pipes/pipes.module';
     IonicModule,
     BarriosPageRoutingModule,
     ComponentesModule,
-    PipesModule
+    PipesModule,
+    SwiperModule
   ],
   declarations: [BarriosPage]
 })

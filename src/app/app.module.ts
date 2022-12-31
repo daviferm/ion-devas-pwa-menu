@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { SwiperModule } from 'swiper/angular';
 
-
 // Componentes
 import { ComponentesModule } from './componentes/componentes.module';
 import { ServiceWorkerModule } from '@angular/service-worker';

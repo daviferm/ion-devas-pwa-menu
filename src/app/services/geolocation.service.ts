@@ -36,6 +36,9 @@ export class GeolocationService {
     // console.log('Current position:', coordinates);
     // return coordinates;
   };
+  getGeolocation() {
+    return Geolocation.getCurrentPosition();
+  }
 
   watchPosition(): Observable<GeolocationPosition>  {
 

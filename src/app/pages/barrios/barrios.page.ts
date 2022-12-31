@@ -8,6 +8,10 @@ import { StorageService } from '../../services/storage.service';
 import { GestionRutasService } from '../../services/gestion-rutas.service';
 import { LayerBarrio } from '../../interfaces/markers.interface';
 import { MapPolygonService } from '../../services/map-polygon.service';
+import SwiperCore, { Autoplay, Keyboard, Pagination, Scrollbar, SwiperOptions, Zoom } from 'swiper';
+import { SwiperComponent } from 'swiper/angular';
+
+SwiperCore.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 
 @Component({
   selector: 'app-barrios',
@@ -17,7 +21,7 @@ import { MapPolygonService } from '../../services/map-polygon.service';
 export class BarriosPage implements OnInit {
 
   @ViewChild(IonList) lista: IonList;
-  @ViewChild('mySubNav', {static: true}) myNavSub: IonSlides;
+  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   tareasBarrios: BarrioInterface[] = [];
   mapaNuevo: Parquimetro[];
   tareas: boolean = true;
@@ -29,10 +33,11 @@ export class BarriosPage implements OnInit {
   marcadores: Parquimetro[];
   centerLat: number;
   centerLng: number;
-  slideOpts = {
-    initialSlide: 0,
+  config: SwiperOptions = {
+    slidesPerView: 1,
+    spaceBetween: 50,
+    navigation: true,
     allowTouchMove: false,
-    speed: 400
   };
   openModal: boolean = false;
   polygon: LayerBarrio;
@@ -63,7 +68,7 @@ export class BarriosPage implements OnInit {
   doReorder(event: any) {
     this.tareasBarrios = event.detail.complete(this.tareasBarrios);
    
-    this.storageService.setLocalStorage('tareas-mant', JSON.stringify(this.tareasBarrios));
+    this.storageService.setLocalStorage('maps-barrios', JSON.stringify(this.tareasBarrios));
   }
 
   // =================================================
@@ -85,19 +90,18 @@ export class BarriosPage implements OnInit {
   }
 
   // Mostrar items del barrio
-  nextSlide(tarea) {
+  slideNext(tarea){
     this.tareaActiva = tarea;
-    this.myNavSub.slideNext();
     this.tareas = false;
-    // this.navbarService.listaTarea.emit( true );
+    this.swiper.swiperRef.slideNext(300);
   }
-  
-  // Volver a lista de mapas
-  prevSlide() {
+  slidePrev(){
     this.storageService.setLocalStorage( 'maps-barrios', JSON.stringify(this.tareasBarrios) );
-    this.myNavSub.slidePrev();
     this.tareas = true;
+    this.swiper.swiperRef.slidePrev(200);
   }
+
+  
   // Evento para saber cuando termita el evenots de volver al Slide prencipal
   ionSlidePrevEnd() {
     this.tareaActiva = null;
@@ -187,7 +191,11 @@ export class BarriosPage implements OnInit {
     this.storageService.setLocalStorage( 'maps-barrios',  JSON.stringify(this.tareasBarrios) );
   }
 
-  borrarMapa( idx: number ) {
+  borrarMapa( idx: number, slider?: IonItemSliding ) {
+
+    if ( slider ) {
+      slider.close();
+    }
     
     this.tareasBarrios.splice(idx,1);
     this.storageService.setLocalStorage( 'maps-barrios', JSON.stringify(this.tareasBarrios) );
@@ -213,6 +221,7 @@ export class BarriosPage implements OnInit {
       this.tareaActiva.items[idx].opacidad = 1;
     }
   }
+  
   ionChangeCheck( marker ) {
     marker.opacidad = marker.hecho ? 0.5 : 1;
   }

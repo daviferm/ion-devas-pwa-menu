@@ -8,12 +8,16 @@
 
 <google-map #mapa width="100%" height="100vh" [center]="centroMapa" [options]="options">
 
-    <map-polygon #vertice [paths]="polygon.coords" [options]="polygon.options"></map-polygon>
     <div *ngIf="pagina == 'home'">
+        <map-polygon #vertice [paths]="polygon.coords" [options]="polygon.options"></map-polygon>
         <map-marker [position]="{lat: marcador.latitud, lng: marcador.longitud}" [icon]="marcador | imgFabricante" [options]="markerOptions"></map-marker>
     </div>
     <div *ngFor="let item of marcadores">
         <map-marker *ngIf="item.info" #mapMarker [options]="item.options" [position]="{lat:item.latitud, lng: item.longitud}" [label]="item.alias | slice:6:10" [icon]="imgMarcadores" (mapClick)="abrirModal(item)"></map-marker>
+    </div>
+    <div class="animated fadeIn fast" *ngFor="let tarea of incidenciasList">
+        <map-marker [options]="tarea.item.options" [position]="{lat: tarea.item.latitud, lng: tarea.item.longitud}" [label]="tarea.item.alias | slice:6:10" [icon]="imgMarcadores" (mapClick)="abrirModal(tarea.item)"></map-marker>
+
     </div>
 
     <map-marker *ngIf="gps" [position]="{lat: latGps, lng: lngGps}" [icon]="imgPosition"></map-marker>

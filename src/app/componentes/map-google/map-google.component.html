@@ -1,0 +1,43 @@
+<!-- google-maps-demo.component.html -->
+<!-- <ion-fab *ngIf="mapMarker" vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button class="btn-close" color="medium" (click)="cerrarMapa()">
+        <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+</ion-fab> -->
+<ion-fab *ngIf="itemsBarrio" vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button class="btn-close" color="medium" (click)="volverAlMapaGeneral()">
+        <ion-icon name="return-up-back-outline"></ion-icon>
+    </ion-fab-button>
+</ion-fab>
+
+
+<div class="modal-inf animated fadeIn fast" *ngIf="modalTop && !itemsBarrio">
+    <p><span class="badge badge-dark madal-text mr-2">Barrio: </span> {{ textInfo.barrio }} </p>
+    <p><span class="badge badge-dark madal-text mr-2">Parquímetros:</span> {{ textInfo.numero }}</p>
+    <ion-fab vertical="top" horizontal="end" slot="fixed">
+        <ion-button size="small" color="dark" (click)="mostrarBarrio()">
+            <ion-icon name="pin-outline"></ion-icon>
+        </ion-button>
+    </ion-fab>
+</div>
+<div #toast class="modal-soporte bounceInDown" *ngIf="infoWindow && marker">
+    <ion-item>
+        <ion-icon (click)="cerrarToast(toast)" slot="end" name="close-outline"></ion-icon>
+        <ion-label>Mueve el marcador a su posición correcta. </ion-label>
+    </ion-item>
+</div>
+
+
+<google-map width="100%" height="100vh" [zoom]="zoomMap" [options]="options" [center]="centroMap" (zoomChange)="zoomChangeMap($event)" (mapClick)="mapaClick()">
+
+    <div *ngIf="palygonos">
+        <map-polygon *ngFor="let polygon of vertices; let i = index" #vertice [paths]="polygon.coords" [options]="polygon.options" (polygonClick)="sobrePolygon(i)"></map-polygon>
+    </div>
+    <div *ngIf="markerSoport">
+        <map-marker #marker [position]="{lat: markerSoport.latitud, lng: markerSoport.longitud}" [icon]="markerSoport | imgFabricante" [options]="soportOptions" (mapDragend)="draggableChanged()"></map-marker>
+    </div>
+    <map-marker #marker [position]="gpsLatLng" [icon]="imgMarcadores" [options]="soportOptions"></map-marker>
+    <div *ngFor="let item of itemsBarrio">
+        <map-marker [options]="markerOptions" [position]="{lat: item.latitud, lng: item.longitud}" [label]="item.alias | slice:6:10" [icon]="imgMarcadores" (mapClick)="abrirModal(item)"></map-marker>
+    </div>
+</google-map>

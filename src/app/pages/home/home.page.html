@@ -5,6 +5,16 @@
     <div>
 
     </div>
-    <app-mapa *ngIf="!searchMap" [zoomMap]="zoomMapa"></app-mapa>
+    <app-map-google *ngIf="!searchMap" [zoomMap]="zoomMapa" [centroMap]="centroMap" (mapaItems)="mostrarBarrio($event)"></app-map-google>
     <app-search-map *ngIf="searchMap" [pagina]=" 'home' " [marcador]="marker" [centroMapa]="{lat: marker.latitud, lng: marker.longitud}" [polygon]="polygon" (closeMap)="cerrarMapa($event)"></app-search-map>
+
+    <ion-fab *ngIf="!searchMap" slot="fixed" vertical="bottom" horizontal="start">
+        <ion-fab-button class="btn-help" id="open-modal" color="dark" (click)="desplegarModal()">
+            <ion-icon name="information-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+    <app-modal-info *ngIf="abrirModal" [modalOpen]="abrirModal" [pageActive]=" 'home' " (closeModal)="closeModal($event)"></app-modal-info>
+
+
 </ion-content>

@@ -3,8 +3,8 @@
 <ion-content [fullscreen]="true">
 
     <main class="main">
-        <ion-slides #mySubNav pager="true" [options]="slideOpts" (ionSlidePrevEnd)="ionSlidePrevEnd()">
-            <ion-slide>
+        <swiper class="swiper" #swiper [config]="config" (slidePrevTransitionEnd)="ionSlidePrevEnd()">
+            <ng-template class="slide" swiperSlide>
                 <div class="listas">
                     <ion-card>
                         <ion-card-header>
@@ -30,8 +30,8 @@
                         </ion-card-content>
                     </ion-card>
                 </div>
-            </ion-slide>
-            <ion-slide class="items">
+            </ng-template>
+            <ng-template class="slide items" swiperSlide>
                 <div class="listas">
                     <ion-header>
                         <ion-toolbar>
@@ -75,8 +75,8 @@
                         </ion-card-content>
                     </ion-card>
                 </div>
-            </ion-slide>
-        </ion-slides>
+            </ng-template>
+        </swiper>
         <!-- fab placed to the (vertical) center and start -->
         <ion-fab *ngIf="!tareaActiva" vertical="bottom" horizontal="start" slot="fixed" edge>
             <ion-fab-button (click)="presentAlertTarea()">

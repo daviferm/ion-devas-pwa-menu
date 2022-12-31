@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Parquimetro, LayerBarrio } from 'src/app/interfaces/markers.interface';
 import { ListaInteface, IncidenciaInteface } from '../../interfaces/markers.interface';
 import { Subject, Subscription, timer } from 'rxjs';
@@ -20,6 +20,7 @@ export class SearchMapComponent implements OnInit, OnDestroy {
 
   @Output() closeMap: EventEmitter<boolean> = new EventEmitter();
   @Output() itemEliminado: EventEmitter<ListaInteface> = new EventEmitter();
+  @Output() incidenciaEliminada: EventEmitter<number> = new EventEmitter();
   @Input() zoom: number = 12.5;
   @Input() markers: Parquimetro[] = [];
   @Input() marker: Parquimetro;
@@ -101,7 +102,12 @@ export class SearchMapComponent implements OnInit, OnDestroy {
   }
   abrirModal( marcador: Parquimetro ) {
     this.infoMarker = marcador;
-    this.tareaTitle = this.tarea.titulo;
+    if ( this.pagina === 'incidencias' ) {
+      this.tareaTitle = 'Incidencias';
+    } else {
+
+      this.tareaTitle = this.tarea.titulo
+    }
     this.openModal = true;
   }
 
@@ -111,7 +117,7 @@ export class SearchMapComponent implements OnInit, OnDestroy {
   }
 
   // =================================================
-  // Realiza una tarea en función de la ruta
+  // Eliminar marcador del mapa
   // =================================================
   tareaRealizada( marker: Parquimetro ) {
     // this.mapMarker
@@ -144,6 +150,7 @@ export class SearchMapComponent implements OnInit, OnDestroy {
         const index = this.incidenciasList.findIndex( item => item.localId === marker.id );
         this.incidenciasList.splice( index, 1 );
         this.storage.setStorage('lista-incidencias', this.incidenciasList);
+        this.incidenciaEliminada.emit( index );
         this.openModal = false;
         break;
     }

@@ -67,4 +67,9 @@ export interface IncidenciaInteface {
   item: Parquimetro;
 }
 
+export interface AltaRotacion {
+  barrio: string,
+  items: Parquimetro[]
+}
+
 

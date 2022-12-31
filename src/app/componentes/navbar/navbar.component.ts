@@ -37,7 +37,8 @@ export class NavbarComponent implements OnInit {
     subHeader: 'Selecciona un barrio',
   };
 
-  barriosHTML = ['151 Ventas','157 Colina', '44 Guindalera', '45 Lista',
+  barriosHTML = ['151 Ventas', '153 Guintana', '155 San Pascual',
+                 '157 Colina', '44 Guindalera', '45 Lista',
                  '46 Castellana', '51 El Viso',
                  '52 Prosperidad', '53 Ciudad Jardín', '54 Hispanoamérica',
                  '55 Nueva España', '56 Castilla', '61 Bellas Vistas',
@@ -185,9 +186,9 @@ export class NavbarComponent implements OnInit {
     if ( this.pageActive !== 'barrios' ) {
       this.objNumero.value = "";
     }
-    if ( this.pageActive === 'home' ) {
-      this.ocultarNavbar();
-    }
+    // if ( this.pageActive === 'home' ) {
+    //   this.ocultarNavbar();
+    // }
   }
   // =================================================
   // Mensaje Toast en la parte superior

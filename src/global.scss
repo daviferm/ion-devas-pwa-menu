@@ -15,6 +15,13 @@
 @import 'swiper/scss';
 @import '@ionic/angular/css/ionic-swiper';
 @import "@ionic/angular/css/core.css";
+@import 'swiper/scss';
+@import 'swiper/scss/autoplay';
+@import 'swiper/scss/keyboard';
+@import 'swiper/scss/pagination';
+@import 'swiper/scss/scrollbar';
+@import 'swiper/scss/zoom';
+@import '@ionic/angular/css/ionic-swiper';
 
 /* Basic CSS for apps built with Ionic */
 
@@ -135,6 +142,60 @@
     animation-duration: .4s;
 }
 
+.bounceInUp {
+    animation-name: bounceInUp;
+    animation-duration: .3s;
+}
+
+@keyframes bounceInUp {
+    from,
+    60%,
+    75%,
+    90%,
+    to {
+        -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 3000px, 0);
+        transform: translate3d(0, 3000px, 0);
+    }
+    60% {
+        opacity: 1;
+        -webkit-transform: translate3d(0, -20px, 0);
+        transform: translate3d(0, -20px, 0);
+    }
+    75% {
+        -webkit-transform: translate3d(0, 10px, 0);
+        transform: translate3d(0, 10px, 0);
+    }
+    90% {
+        -webkit-transform: translate3d(0, -5px, 0);
+        transform: translate3d(0, -5px, 0);
+    }
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        -webkit-transform: scale3d(0.3, 0.3, 0.3);
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.zoomIn {
+    animation-name: zoomIn;
+    animation-duration: .4s;
+}
+
 ion-menu-button {
     --color: whitesmoke;
 }
@@ -178,6 +239,35 @@ ion-slides {
     }
 }
 
+.swiper {
+    height: 100%;
+    width: 100%;
+    .slide {
+        height: 100%;
+        width: 100vh;
+        ion-card {
+            margin: 3rem .5rem !important;
+            &.card-items {
+                margin-top: .5rem !important;
+                overflow: hidden;
+                max-height: calc(100vh - 150px);
+                .list-items {
+                    padding: 0px 0px 1rem 0;
+                    overflow-y: scroll !important;
+                    height: calc(100vh - 300px)
+                }
+            }
+        }
+        &.items {
+            margin: 0px;
+        }
+        .listas {
+            width: 100vh;
+            height: 100%;
+        }
+    }
+}
+
 ion-card-content {
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -202,4 +292,10 @@ ion-item {
 
 .ion-img {
     margin: 0px 1rem;
+}
+
+.btn-help {
+    width: 40px !important;
+    height: 40px !important;
+    margin-bottom: -40px;
 }

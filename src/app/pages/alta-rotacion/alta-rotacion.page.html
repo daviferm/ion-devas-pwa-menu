@@ -3,6 +3,22 @@
 
 <ion-content>
 
-    <h1>Alta Rotación</h1>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-subtitle class="ion-text-center">Parquímetros con tarifa de alta rotarión (maximo 45 minutos)</ion-card-subtitle>
+            <ion-card-title class="ion-text-center">Alta Rotación</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list mode="ios" class="card-items" *ngFor="let barrio of barriosSort">
+                <ion-item mode="ios" color="dark">
+                    <ion-label class="ion-text-center"> {{ barrio.barrio }} </ion-label>
+                    <!-- <ion-badge color="dark" class="md-2"> 8 </ion-badge> -->
+                </ion-item>
+                <ion-item class="elemento" mode="ios" color="light" *ngFor="let item of barrio.items">
+                    <ion-label class="ion-text-center"> {{ item.alias }} </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
 </ion-content>

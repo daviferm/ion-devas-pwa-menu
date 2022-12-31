@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
 import { MapaComponent } from './mapa/mapa.component'
 import { NavbarComponent } from './navbar/navbar.component';
@@ -13,6 +14,8 @@ import { UploadImgComponent } from './upload-img/upload-img.component';
 
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { HeaderComponent } from './header/header.component';
+import { ModalInfoComponent } from './modal-info/modal-info.component';
+import { MapGoogleComponent } from './map-google/map-google.component';
 
 
 @NgModule({
@@ -22,7 +25,9 @@ import { HeaderComponent } from './header/header.component';
     SearchMapComponent,
     DetallesModalComponent,
     UploadImgComponent,
-    HeaderComponent
+    HeaderComponent,
+    ModalInfoComponent,
+    MapGoogleComponent
   ],
   exports: [
     MapaComponent,
@@ -30,7 +35,9 @@ import { HeaderComponent } from './header/header.component';
     SearchMapComponent,
     DetallesModalComponent,
     UploadImgComponent,
-    HeaderComponent
+    HeaderComponent,
+    ModalInfoComponent,
+    MapGoogleComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +45,9 @@ import { HeaderComponent } from './header/header.component';
     FormsModule,
     GoogleMapsModule,
     PipesModule,
-    AlifeFileToBase64Module
+    AlifeFileToBase64Module,
+    HttpClientModule,
+    HttpClientJsonpModule
   ]
 })
 export class ComponentesModule { }

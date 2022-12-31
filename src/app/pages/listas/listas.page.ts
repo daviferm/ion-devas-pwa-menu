@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonList, IonSlides, AlertController, ToastController } from '@ionic/angular';
+import { IonList, AlertController, ToastController } from '@ionic/angular';
 import { StorageService } from '../../services/storage.service';
 import { NavbarService } from '../../componentes/navbar/navbar.service';
 import { ListaInteface, Parquimetro } from '../../interfaces/markers.interface';
 import { DataFormService } from '../../services/data-form.service';
 import { Subscription } from 'rxjs';
-// import { IonReorderGroup } from '@ionic/angular';
-// import { ItemReorderEventDetail } from '@ionic/core';
 import { ModalController } from '@ionic/angular';
 import { GestionRutasService } from '../../services/gestion-rutas.service';
+import { SwiperComponent } from 'swiper/angular';
+import { SwiperOptions } from 'swiper';
 
 @Component({
   selector: 'app-listas',
@@ -18,7 +18,7 @@ import { GestionRutasService } from '../../services/gestion-rutas.service';
 export class ListasPage implements OnInit {
 
   @ViewChild(IonList) lista: IonList;
-  @ViewChild('mySubNav', {static: true}) myNavSub: IonSlides;
+  @ViewChild('swiper', { static: false }) swiper?: SwiperComponent;
   tareasLista: ListaInteface[] = [];
   idxLista: number;
   idxItem: number;
@@ -32,10 +32,11 @@ export class ListasPage implements OnInit {
   // centerLat: number;
   // centerLng: number;
   centerMap: {lat: number, lng: number};
-  slideOpts = {
-    initialSlide: 0,
+  config: SwiperOptions = {
+    slidesPerView: 1,
+    spaceBetween: 50,
+    navigation: true,
     allowTouchMove: false,
-    speed: 400
   };
   // openModal: boolean = false;
   modalUploadImg: boolean = false;
@@ -64,6 +65,7 @@ export class ListasPage implements OnInit {
       if ( !existe ) {
         resp.latitud = Number( resp.latitud );
         resp.longitud = Number( resp.longitud );
+        resp.info = true;
         this.tareaActiva.items.push( resp );
         // this.storage.setStorage('lista-tareas', this.tareasLista);
         this.storage.setLocalStorage('lista-tareas', JSON.stringify( this.tareasLista ));
@@ -142,15 +144,14 @@ export class ListasPage implements OnInit {
   nextSlide(tarea, i) {
     this.idxLista = i;
     this.tareaActiva = tarea;
-    this.myNavSub.slideNext();
+    this.swiper.swiperRef.slideNext(300);
     this.tareas = false;
   }
   
   prevSlide() {
-    this.myNavSub.slidePrev();
+    this.swiper.swiperRef.slidePrev(200);
     this.tareas = true;
     // Guardar cambios en el Storage
-    // this.storage.setStorage('lista-tareas', this.tareasLista);
     this.storage.setLocalStorage( 'lista-tareas', JSON.stringify(this.tareasLista) );
   }
   // Evento para saber cuando termita el evenots de volver al Slide prencipal
@@ -300,24 +301,6 @@ export class ListasPage implements OnInit {
     // this.storage.setStorage('lista-tareas', this.tareasLista);
     this.storage.setLocalStorage('lista-tareas', JSON.stringify( this.tareasLista ));
   }
-  
-  // actualizarTareasStorage() {
-  //   this.tareasLista = [];
-  //   this.storage.getStorage('lista-tareas').then( (resp) => {
-
-  //     if ( resp ) {
-  //     resp.forEach( (elem: any) => {
-  //       const tarea: ListaInteface = {
-  //         localId: elem.localId,
-  //         titulo: elem.titulo,
-  //         items: elem.items
-  //       }
-  //       this.tareasLista.push( tarea );
-  //     } )
-  //     }
-  //     // console.log(this.tareasLista);
-  //   } )
-  // }
 
   actualizarLocalStorage() {
     this.tareasLista = JSON.parse(this.storage.getLocalStorage('lista-tareas'));

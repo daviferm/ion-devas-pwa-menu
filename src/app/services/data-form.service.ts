@@ -1,7 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { from } from 'rxjs';
-import { Parquimetro } from '../interfaces/markers.interface';
+import { AltaRotacion, Parquimetro } from '../interfaces/markers.interface';
 import { StorageService } from './storage.service';
 import { ajax } from 'rxjs/ajax';
 
@@ -139,4 +139,61 @@ export class DataFormService {
   sendArrayBarrio( items: Parquimetro[] ) {
     this.enviarPageBarrios.emit( items )
   }
+
+
+  obtenerItemsAltaRotacion(): any {
+
+    if ( this.DB.length !== 0 ) {
+
+      const items = this.DB.filter( elem => elem.tarifa === 'AR' );
+      // items.forEach( item => item.id = '' );
+      const itemsSort = this.ordenarItems( items );
+      let barriosAr = this.obtenerBarriosAltaRotacion( itemsSort );
+      localStorage.setItem( 'itemsAR', JSON.stringify( itemsSort ) );
+
+      return barriosAr;
+      
+    } 
+
+  }
+  obtenerBarriosAltaRotacion( items: Parquimetro[] ) {
+
+    let barrios = [];
+    let barriosSort = [];
+
+    items.forEach( el => {
+        barrios.push( el.barrio );
+    } )
+
+    const setBarrios = new Set( barrios );
+
+    setBarrios.forEach( barrio => {
+        barriosSort.push( {
+            barrio: barrio,
+            items: items.filter( elem => elem.barrio === barrio )
+        } )
+    } );
+    localStorage.setItem( 'barriosAR', JSON.stringify( barriosSort ) );
+
+    return setBarrios;
+
+  }
+
+  // Ordenar Items por número de barrio
+  ordenarItems(items: Parquimetro[]) {
+    items.sort(function ( a , b) {
+      if (a.barrio > b.barrio) {
+        return 1;
+      }
+      if (a.barrio < b.barrio) {
+        return -1;
+      }
+      // a es igual que b
+      return 0;
+    });
+  
+    return items;
+  }
+
+
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { SwiperModule } from 'swiper/angular';
 
 import { ListasPageRoutingModule } from './listas-routing.module';
 import { ComponentesModule } from '../../componentes/componentes.module';
@@ -15,7 +16,8 @@ import { ListasPage } from './listas.page';
     FormsModule,
     IonicModule,
     ListasPageRoutingModule,
-    ComponentesModule
+    ComponentesModule,
+    SwiperModule
   ],
   declarations: [ListasPage]
 })
